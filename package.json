@@ -14,10 +14,15 @@
   },
   "scripts": {
     "test": "jest --coverage",
-    "prepublish":"babel src --out-dir lib"
+    "prepublish": "babel src --out-dir lib"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ]
   },
   "keywords": [
     "express.js",
