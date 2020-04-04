@@ -2,8 +2,10 @@
   "name": "quick-validate",
   "version": "1.0.0",
   "description": "Node module for configurable API validations",
-  "main": "index.js",
+  "main": "lib/index.js",
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.6.0",
     "babel-jest": "^24.9.0",
     "coveralls": "^3.0.11",
@@ -11,13 +13,19 @@
     "jest-cli": "^24.9.0"
   },
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "prepublish": "babel src --out-dir lib",
+    "build": "babel src --out-dir lib",
+    "prepublish":"babel src --out-dir lib"
   },
   "jest": {
     "testEnvironment": "node"
   },
   "keywords": [
-    "validation"
+    "express.js",
+    "validation",
+    "api",
+    "node.js"
   ],
   "author": "Moyukh Bera",
   "license": "ISC"
