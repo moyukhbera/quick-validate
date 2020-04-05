@@ -14,7 +14,7 @@ test('isNumber returns true for valid number', () => {
 });
 
 test('isNumber returns false for non-numbers', () => {
-    expect(quickValidate.isNumber('123')).toBe(false);
+    expect(quickValidate.isNumber('123')).toBe(true);
     expect(quickValidate.isNumber([1, 2, 3])).toBe(false);
 });
 

@@ -14,12 +14,14 @@
   },
   "scripts": {
     "test": "jest --coverage",
-    "prepublish": "babel src --out-dir lib"
+    "prepare": "babel src --out-dir lib",
+    "prepublishOnly": "babel src --out-dir lib"
   },
   "jest": {
     "testEnvironment": "node",
     "collectCoverageFrom": [
       "src/*.{js,jsx}",
+      "!**/lib/**",
       "!**/node_modules/**",
       "!**/vendor/**"
     ]

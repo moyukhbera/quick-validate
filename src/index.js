@@ -1,9 +1,9 @@
 import * as quickValidate from './quickValidate';
 
 export const getValue = (obj, key) => {
-    var keys = key.split('.');
+    let keys = key.split('.');
     if (obj[keys[0]]) {
-        var val = obj[keys[0]];
+        let val = obj[keys[0]];
 
         if (!val || keys.length < 2)
             return val;
@@ -13,9 +13,9 @@ export const getValue = (obj, key) => {
 
 export const getValidationDefForFieldList = (validationDefObj, fieldNameList, validationSchema, isRequired) => {
     console.log(JSON.stringify(validationSchema));
-    var obj = validationDefObj;
-    for (var i = 0; i < fieldNameList.length; i++) {
-        var fieldName = fieldNameList[i];
+    let obj = validationDefObj;
+    for (let i = 0; i < fieldNameList.length; i++) {
+        let fieldName = fieldNameList[i];
         obj[fieldName] = getValue(validationSchema, fieldName);
         console.log('fieldName ->', fieldName);
         if (!obj[fieldName]) {
@@ -27,7 +27,7 @@ export const getValidationDefForFieldList = (validationDefObj, fieldNameList, va
 }
 
 export const getSchemaForValidatedFields = (fieldConfig, validationSchema) => {
-    var obj = {};
+    let obj = {};
     console.log('fieldConfig: ' + JSON.stringify(fieldConfig));
 
     if (fieldConfig.required) {
@@ -58,8 +58,8 @@ export const resetParamAuthRoutes = () => {
 
 //Method to set the route-role mapping JSON object
 export const setParamRouteValidations = (routesJSON) => {
-    for (var httpMethod in routesJSON) {
-        for (var url in routesJSON[httpMethod]) {
+    for (const httpMethod in routesJSON) {
+        for (const url in routesJSON[httpMethod]) {
             if (url.indexOf(':') > -1) {
                 paramAuthRoutes[httpMethod][url.replace(/:[a-zA-Z0-9-_]+/g, '[a-zA-Z0-9-]+')] = routesJSON[httpMethod][url];
             }
@@ -71,9 +71,9 @@ export const setParamRouteValidations = (routesJSON) => {
 
 export const getValidationForParamRoute = (httpMethod, originalUrl) => {
     if (paramAuthRoutes[httpMethod]) {
-        for (var url in paramAuthRoutes[httpMethod]) {
-            var pattern = new RegExp(url);
-            var isMatch = pattern.test(originalUrl);
+        for (const url in paramAuthRoutes[httpMethod]) {
+            let pattern = new RegExp(url);
+            let isMatch = pattern.test(originalUrl);
 
             if (isMatch) {
                 return paramAuthRoutes[httpMethod][url];
@@ -88,41 +88,48 @@ export const enableValidations = (app, apiValidations, validationSchema, removeE
     app.use(interceptor(apiValidations, removeExtraAttrs, validationSchema));
 }
 
+export const validateReqPart = (partName, req, routeValidations, validationSchema, next) => {
+    let fieldValidationCfg = getSchemaForValidatedFields(routeValidations[partName], validationSchema);
+    console.log(JSON.stringify(fieldValidationCfg));
+    quickValidate.validate(req[partName], fieldValidationCfg);
+}
+
 export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) => {
     return function (req, res, next) {
-        var httpMethod = req.method;
-        var url = req.originalUrl.toLowerCase().split('\?')[0];
-        var lastSlashIndex = url.lastIndexOf('\/');
-        var baseURL = url.substring(0, lastSlashIndex);
+        let httpMethod = req.method;
+        let url = req.originalUrl.toLowerCase().split('\?')[0];
+
         console.log('Validating...');
         if (apiValidations) {
-            var httpMethodValidations = apiValidations[httpMethod];
+            let httpMethodValidations = apiValidations[httpMethod];
             if (!httpMethodValidations)
                 return next();
-            var routeValidations = {};
-            var paramRouteValidations = getValidationForParamRoute(httpMethod, url);
+            let routeValidations = {};
+            let paramRouteValidations = getValidationForParamRoute(httpMethod, url);
             if (paramRouteValidations)
                 routeValidations = paramRouteValidations;
             else
                 routeValidations = httpMethodValidations[url];
+
             console.log('routeValidations: ' + JSON.stringify(routeValidations));
             if (!routeValidations)
                 return next();
+
             console.log('Stripping additional attributes...');
             //Stripping additional attributes
             if (httpMethod === 'POST' || httpMethod === 'PUT') {
                 console.log(JSON.stringify(routeValidations.body), removeExtraAttrs);
                 if (routeValidations.body && removeExtraAttrs) {
-                    var requiredAttrs = (routeValidations.body.required) ? routeValidations.body.required : [];
-                    var optionalAttrs = (routeValidations.body.optional) ? routeValidations.body.optional : [];
-                    var allAttrs = requiredAttrs.concat(optionalAttrs);
-                    var bodyTmp = {};
-                    for (var i = 0; i < allAttrs.length; i++) {
+                    let requiredAttrs = (routeValidations.body.required) ? routeValidations.body.required : [];
+                    let optionalAttrs = (routeValidations.body.optional) ? routeValidations.body.optional : [];
+                    let allAttrs = requiredAttrs.concat(optionalAttrs);
+                    let bodyTmp = {};
+                    for (let i = 0; i < allAttrs.length; i++) {
                         bodyTmp[allAttrs[i]] = req.body[allAttrs[i]];
                     }
                     req.body = bodyTmp;
-                    for (var i = 0; i < optionalAttrs.length; i++) {
-                        var attributeName = optionalAttrs[i];
+                    for (let i = 0; i < optionalAttrs.length; i++) {
+                        let attributeName = optionalAttrs[i];
                         if (req.body[attributeName] === '') {
                             delete req.body[attributeName];
                         }
@@ -130,43 +137,24 @@ export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) 
                 }
             }
             console.log('routeValidations: ' + JSON.stringify(routeValidations));
-            if (routeValidations.body) {
-                var fieldValidationCfg = getSchemaForValidatedFields(routeValidations.body, validationSchema);
-                try {
-                    console.log(JSON.stringify(fieldValidationCfg));
-                    quickValidate.validate(req.body, fieldValidationCfg);
+            try {
+                if (routeValidations.body) {
+                    validateReqPart('body', req, routeValidations, validationSchema, next);
                 }
-                catch (err) {
-                    console.log('Body Error: ' + err.stack + ' ' + err.code);
-                    return next(err);
+
+                if (routeValidations.query) {
+                    validateReqPart('query', req, routeValidations, validationSchema, next);
                 }
+
+                if (routeValidations.headers) {
+                    validateReqPart('headers', req, routeValidations, validationSchema, next);
+                }
+            } catch (e) {
+                return next(e);
             }
-            if (routeValidations.query) {
-                var fieldValidationCfg = getSchemaForValidatedFields(routeValidations.query, validationSchema);
-                console.log('fieldValidationCfg ->', JSON.stringify(fieldValidationCfg));
-                try {
-                    console.log('fieldValidations: ' + JSON.stringify(fieldValidationCfg));
-                    quickValidate.validate(req.query, fieldValidationCfg);
-                }
-                catch (err) {
-                    console.log('Query Error: ' + err.stack + ' ' + err.code);
-                    return next(err);
-                }
-            }
-            if (routeValidations.headers) {
-                var fieldValidationCfg = getSchemaForValidatedFields(routeValidations.headers, validationSchema);
-                console.log('fieldValidationCfg ->', JSON.stringify(fieldValidationCfg));
-                try {
-                    console.log('fieldValidations: ' + JSON.stringify(fieldValidationCfg));
-                    quickValidate.validate(req.headers, fieldValidationCfg);
-                }
-                catch (err) {
-                    console.log('Query Error: ' + err.stack + ' ' + err.code);
-                    return next(err);
-                }
-            }
+
         }
-        req.body = (req.body) ? JSON.parse(JSON.stringify(req.body)) : req.body;
+        // req.body = (req.body) ? JSON.parse(JSON.stringify(req.body)) : req.body;
         next();
     };
 }

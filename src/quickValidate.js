@@ -47,7 +47,7 @@ export const validRegex = (val, regex) => {
 }
 
 export const isNumber = (n) => {
-    return Number(n) === n;
+    return !isNaN(n);
 }
 
 export const isString = (val) => {
@@ -59,23 +59,23 @@ export const isBoolean = (val) => {
 }
 
 export const validEmail = (email) => {
-    var emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailRegex.test(email);
 }
 
 export const isStrongPassword = (password) => {
-    var strongPsswdRegex = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,15}$/;
+    let strongPsswdRegex = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,15}$/;
     return strongPsswdRegex.test(password);
 }
 
 function throwErrorWithCode(errMsg, code = 1001) {
-    var err = new Error(errMsg);
+    let err = new Error(errMsg);
     err.code = code;
     err.status = 400;
     throw err;
 }
 
-var PASSWORD_CRITERIA_STR = 'must be 8-15 characters, should contain atleast 1 special character, 1 digit, 1 lower case and 1 upper case character';
+const PASSWORD_CRITERIA_STR = 'must be 8-15 characters, should contain atleast 1 special character, 1 digit, 1 lower case and 1 upper case character';
 
 /**
  * 
@@ -106,7 +106,7 @@ export const validate = (obj, validationConfig) => {
         obj = {};
 
     for (let fieldName in validationConfig) {
-        var fieldValidations = validationConfig[fieldName];
+        let fieldValidations = validationConfig[fieldName];
         let errCode = fieldValidations.invalid_err_code;
         if (!fieldValidations.type) {
             throw new Error("Validation field 'type' required for field '" + fieldName + "'");
