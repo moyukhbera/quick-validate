@@ -11,7 +11,7 @@
 
 ### Installation
 `
-npm install quick-validate
+npm install quick-validate --save
 `
 
 ### Usage
@@ -124,4 +124,14 @@ As shown in above example, the configuration object structure should be
 }
 ```
 
-3. Import and use quick-validate
+3. Import and use _quick-validate_ in your **app.js**
+
+```js
+import * as quickValidate from 'quick-validate';
+import apiValidations from './validations/apiValidations.json';
+import validationSchema from './validations/validationSchema.json';
+import express from 'express';
+
+const app = express();
+quickValidate.enableValidations(app, apiValidations, validationSchema, true);
+```
