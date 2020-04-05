@@ -21,7 +21,7 @@ Create 2 files inside the **validations** directory - **apiValidations.json** an
 
 _apiValidations.json_ should specify validations for each endpoint. Example file below 
 
-```yaml
+```json
 {
 	"POST": {
 		"/product": {
