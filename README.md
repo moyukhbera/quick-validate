@@ -123,3 +123,5 @@ As shown in above example, the configuration object structure should be
 	}
 }
 ```
+
+3. Import and use quick-validate
