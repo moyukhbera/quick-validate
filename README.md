@@ -24,7 +24,7 @@ _apiValidations.json_ should specify validations for each endpoint. _validationS
 
 #### <a name="head_apiValidations"></a>apivalidations.json
 
-```js
+```json
 {
 	"POST": {
 		"/product": {
