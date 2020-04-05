@@ -72,3 +72,21 @@ _apiValidations.json_ should specify validations for each endpoint. Example file
 }
 ```
 
+As shown in above example, the configuration object structure should be
+
+```json
+{
+	"httpMethod": {
+		"endpoint_path1": {
+			"required": ["attr1", "attr2"],
+			"optional": ["attr3"]
+		},
+		"endpoint_path2": {
+			"required": ["attr1", "attr2"],
+			"optional": ["attr3"]
+		}
+	}
+}
+```
+
+Let's take a look at how _validationSchema.json_ file should look like
