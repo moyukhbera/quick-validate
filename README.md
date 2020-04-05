@@ -16,9 +16,9 @@ npm install quick-validate
 
 ### Usage
 
-Create a directory named **validations** inside root of your project. This is not required but is recommended as a good practice.
+1. Create a directory named **validations** inside root of your project. This is not required but is recommended as a good practice.
 
-Create 2 files inside the **validations** directory - [apiValidations.json](#head_apiValidations) and [validationSchema.json](#head_validationSchema)
+2. Create 2 files inside the **validations** directory - [apiValidations.json](#head_apiValidations) and [validationSchema.json](#head_validationSchema)
 
 _apiValidations.json_ should specify validations for each endpoint. _validationSchema.json_ should specify type and other constraints about each attribute to be validated.
 
