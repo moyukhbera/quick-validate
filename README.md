@@ -44,7 +44,7 @@ _apiValidations.json_ should specify validations for each endpoint. Example file
 				"optional": [
 					"title",
 					"img_url",
-					"price",
+                    "price",
                     "availability_status", 
                     "description"
 				]
