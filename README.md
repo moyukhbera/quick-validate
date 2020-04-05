@@ -19,47 +19,44 @@
 Create a directory named **validations** inside root of your project. This is not required but is recommended as a good practice.
 
 Create 2 files inside the **validations** directory
+
 **apiValidations.json**
 **validationSchema.json**
 
 _apiValidations.json_ should specify validations for each endpoint. Example file below
 
-```json
+```yaml
 {
-  "POST": {
-    "/product": {
-      "body": {
-        "required": ["title", "img_url", "price", "availability_status"],
-        "optional": ["description"]
-      }
-    }
-  },
-  "PUT": {
-    "/product/:product_id": {
-      "body": {
-        "optional": [
-          "title",
-          "img_url",
-          "price",
-          "availability_status",
-          "description"
-        ]
-      }
-    }
-  },
-  "GET": {
-    "/products": {
-      "query": {
-        "required": ["q"]
-      }
-    }
-  },
-  "DELETE": {
-    "/product/:product_id": {
-      "headers": {
-        "required": ["admin_token"]
-      }
-    }
-  }
+  "POST":
+    {
+      "/product":
+        {
+          "body":
+            {
+              "required": ["title", "img_url", "price", "availability_status"],
+              "optional": ["description"],
+            },
+        },
+    },
+  "PUT":
+    {
+      "/product/:product_id":
+        {
+          "body":
+            {
+              "optional":
+                [
+                  "title",
+                  "img_url",
+                  "price",
+                  "availability_status",
+                  "description",
+                ],
+            },
+        },
+    },
+  "GET": { "/products": { "query": { "required": ["q"] } } },
+  "DELETE":
+    { "/product/:product_id": { "headers": { "required": ["admin_token"] } } },
 }
 ```
