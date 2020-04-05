@@ -8,7 +8,8 @@
 * **Simple** - Provides a simple and quick way to configure API validations
 * **Clean** - Unlike other libraries, _quick-validate_ does not require you to write a lot of code for adding simple validations. It uses simple JSON configuration files which do not pollute application code. 
 * **Readable** - The validations are much more readable and comprehensible. 
-#### Installation
+
+### Installation
 `
 npm install quick-validate
 `
@@ -17,9 +18,11 @@ npm install quick-validate
 
 Create a directory named **validations** inside root of your project. This is not required but is recommended as a good practice.
 
-Create 2 files inside the **validations** directory - **apiValidations.json** and **validationSchema.json**
+Create 2 files inside the **validations** directory - [apiValidations.json](#head_apiValidations) and [validationSchema.json](#head_validationSchema)
 
-_apiValidations.json_ should specify validations for each endpoint. Example file below 
+_apiValidations.json_ should specify validations for each endpoint. _validationSchema.json_ should specify type and other constraints about each attribute to be validated.
+
+#### <a name="head_apiValidations"></a>apivalidations.json
 
 ```json
 {
@@ -89,7 +92,7 @@ As shown in above example, the configuration object structure should be
 }
 ```
 
-Let's take a look at how _validationSchema.json_ file should look like
+#### <a name="head_validationSchema"></a>validationSchema.json
 
 ```json
 {
