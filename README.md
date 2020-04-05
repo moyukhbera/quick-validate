@@ -126,6 +126,7 @@ As shown in above example, the configuration object structure should be
 
 3. Import and use _quick-validate_ in your **app.js**
 
+Using ES6
 ```js
 import * as quickValidate from 'quick-validate';
 import apiValidations from './validations/apiValidations.json';
@@ -133,5 +134,16 @@ import validationSchema from './validations/validationSchema.json';
 import express from 'express';
 
 const app = express();
+quickValidate.enableValidations(app, apiValidations, validationSchema, true);
+```
+
+Good ol' way
+```js
+var quickValidate = require('quick-validate');
+var apiValidations = require('./validations/apiValidations.json');
+var validationSchema = require('./validations/validationSchema.json');
+var express = require('express');
+
+var app = express();
 quickValidate.enableValidations(app, apiValidations, validationSchema, true);
 ```
