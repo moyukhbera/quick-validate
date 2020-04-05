@@ -90,3 +90,33 @@ As shown in above example, the configuration object structure should be
 ```
 
 Let's take a look at how _validationSchema.json_ file should look like
+
+```json
+{
+	"title": {
+		"type": "String"
+	},
+	"img_url": {
+		"type": "String"
+	},
+	"price": {
+		"type": "Number"
+	},
+	"availability_status": {
+		"type": "regex",
+		"regex": "^(IN_STOCK|OUT_OF_STOCK)$"
+	},
+	"description": {
+		"type": "String"
+	},
+	"q": {
+		"type": "String",
+		"minlength": 3,
+		"maxlength": "50"
+	},
+	"admin_token": {
+		"type": "String",
+		"length": 32
+	}
+}
+```
