@@ -155,27 +155,32 @@ app.use(function (err, req, res, next) {
 
 #### Schema Properties
 
-Click on name to see example
+Click on property name to see example
 
-| name                             | purpose                               |
-| -------------------------------- | :------------------------------------ |
-| [type](#head_supported_types)    | datatype of attribute                 |
-| [length](#head_length)           | length of 'String' type attribute     |
-| [minlength](#head_minmax_length) | min length of 'String' type attribute |
-| maxlength                        | max length of 'String' type attribute |
-| regex                            | Pattern for regex type attribute      |
+| name                             | purpose                                     |
+| -------------------------------- | :------------------------------------------ |
+| [type](#head_supported_types)    | datatype of attribute                       |
+| [length](#head_length)           | length of 'String' type attribute           |
+| [minlength](#head_minmax_length) | min length of 'String' type attribute       |
+| [maxlength](#head_minmax_length) | max length of 'String' type attribute       |
+| [regex](#head_regex)             | specifies a pattern to match with           |
+| [enumVals](#head_enum)           | specifies a set of enums to match with      |
+| missing_err_code                 | error code to return if missing             |
+| invalid_err_code                 | error code to return if datatype is invalid |
 
 #### <a name="head_supported_types"></a>Supported 'type'(s)
 
-| type    | purpose                                    |
-| ------- | :----------------------------------------- |
-| String  | Any string                                 |
-| Number  | int, float or any string representing same |
-| boolean | boolean                                    |
-| Array   | Any array                                  |
-| regex   | any given pattern                          |
-| enum    | max length of 'String' type attribute      |
-| Object  | Any Object                                 |
+| type     | purpose                                    |
+| -------- | :----------------------------------------- |
+| String   | Any string                                 |
+| Number   | int, float or any string representing same |
+| boolean  | boolean                                    |
+| Array    | Any array                                  |
+| Object   | Any Object                                 |
+| email    | valid email                                |
+| password | matches strict password policy             |
+
+_regex_ and _enum_ fields doesn't need to specify _type_
 
 ##### Examples
 
@@ -198,6 +203,26 @@ Click on name to see example
     "type": "String",
     "minlength": 5,
     "maxlength": 15
+  }
+}
+```
+
+<a name="head_regex"></a>regex
+
+```json
+{
+  "ip": {
+    "regex": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+  }
+}
+```
+
+<a name="head_enum"></a>enumVals
+
+```json
+{
+  "availability_status": {
+    "enumVals": ["IN_STOCK", "OUT_OF_STOCK"]
   }
 }
 ```
