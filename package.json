@@ -6,11 +6,11 @@
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.6.0",
-    "babel-jest": "^24.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "babel-jest": "^25.2.6",
     "coveralls": "^3.0.11",
     "express": "^4.17.1",
-    "jest-cli": "^24.9.0"
+    "jest-cli": "^25.2.7"
   },
   "scripts": {
     "test": "jest --coverage",

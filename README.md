@@ -1,18 +1,18 @@
-# quick-validate 
+# quick-validate
+
 ###### Quick configurable API validations for Express.js
 
-[![Travis Build](https://api.travis-ci.org/moyukhbera/quick-validate.svg)](https://travis-ci.org/github/moyukhbera/quick-validate) [![Coverage Status](https://coveralls.io/repos/github/moyukhbera/quick-validate/badge.svg?branch=master)](https://coveralls.io/github/moyukhbera/quick-validate?branch=master) [![Known Vulnerabilities](https://snyk.io/test/github/moyukhbera/quick-validate/badge.svg)](https://snyk.io/test/github/moyukhbera/quick-validate) [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
+[![Travis Build](https://api.travis-ci.org/moyukhbera/quick-validate.svg)](https://travis-ci.org/github/moyukhbera/quick-validate) [![Coverage Status](https://coveralls.io/repos/github/moyukhbera/quick-validate/badge.svg?branch=master)](https://coveralls.io/github/moyukhbera/quick-validate?branch=master) [![Known Vulnerabilities](https://snyk.io/test/github/moyukhbera/quick-validate/badge.svg)](https://snyk.io/test/github/moyukhbera/quick-validate) [![Dependencies](https://david-dm.org/moyukhbera/quick-validate/status.svg)](https://david-dm.org/moyukhbera/quick-validate) [![Dev Dependencies](https://david-dm.org/moyukhbera/quick-validate/dev-status.svg)](https://david-dm.org/moyukhbera/quick-validate?type=dev) [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
 
 ### Features
 
-* **Simple** - Provides a simple and quick way to configure API validations
-* **Clean** - Unlike other libraries, _quick-validate_ does not require you to write a lot of code for adding simple validations. It uses simple JSON configuration files which do not pollute application code. 
-* **Readable** - The validations are much more readable and comprehensible. 
+- **Simple** - Provides a simple and quick way to configure API validations
+- **Clean** - Unlike other libraries, _quick-validate_ does not require you to write a lot of code for adding simple validations. It uses simple JSON configuration files which do not pollute application code.
+- **Readable** - The validations are much more readable and comprehensible.
 
 ### Installation
-`
-npm install quick-validate --save
-`
+
+`npm install quick-validate --save`
 
 ### Usage
 
@@ -26,52 +26,41 @@ _apiValidations.json_ should specify validations for each endpoint. _validationS
 
 ```json
 {
-	"POST": {
-		"/product": {
-			"body": {
-				"required": [
-					"title",
-					"img_url",
-					"price",
-					"availability_status"
-				],
-				"optional": [
-					"description"
-				]
-			}
-		}
-	},
-	"PUT": {
-		"/product/:product_id": {
-			"body": {
-				"optional": [
-					"title",
-					"img_url",
-					"price",
-					"availability_status",
-					"description"
-				]
-			}
-		}
-	},
-	"GET": {
-		"/products": {
-			"query": {
-				"required": [
-					"q"
-				]
-			}
-		}
-	},
-	"DELETE": {
-		"/product/:product_id": {
-			"headers": {
-				"required": [
-					"admin_token"
-				]
-			}
-		}
-	}
+  "POST": {
+    "/product": {
+      "body": {
+        "required": ["title", "img_url", "price", "availability_status"],
+        "optional": ["description"]
+      }
+    }
+  },
+  "PUT": {
+    "/product/:product_id": {
+      "body": {
+        "optional": [
+          "title",
+          "img_url",
+          "price",
+          "availability_status",
+          "description"
+        ]
+      }
+    }
+  },
+  "GET": {
+    "/products": {
+      "query": {
+        "required": ["q"]
+      }
+    }
+  },
+  "DELETE": {
+    "/product/:product_id": {
+      "headers": {
+        "required": ["admin_token"]
+      }
+    }
+  }
 }
 ```
 
@@ -79,16 +68,16 @@ As shown in above example, the configuration object structure should be
 
 ```json
 {
-	"httpMethod": {
-		"endpoint_path1": {
-			"required": ["attr1", "attr2"],
-			"optional": ["attr3"]
-		},
-		"endpoint_path2": {
-			"required": ["attr1", "attr2"],
-			"optional": ["attr3"]
-		}
-	}
+  "httpMethod": {
+    "endpoint_path1": {
+      "required": ["attr1", "attr2"],
+      "optional": ["attr3"]
+    },
+    "endpoint_path2": {
+      "required": ["attr1", "attr2"],
+      "optional": ["attr3"]
+    }
+  }
 }
 ```
 
@@ -96,53 +85,55 @@ As shown in above example, the configuration object structure should be
 
 ```json
 {
-	"title": {
-		"type": "String"
-	},
-	"img_url": {
-		"type": "String"
-	},
-	"price": {
-		"type": "Number"
-	},
-	"availability_status": {
-		"type": "regex",
-		"regex": "^(IN_STOCK|OUT_OF_STOCK)$"
-	},
-	"description": {
-		"type": "String"
-	},
-	"q": {
-		"type": "String",
-		"minlength": 3,
-		"maxlength": "50"
-	},
-	"admin_token": {
-		"type": "String",
-		"length": 32
-	}
+  "title": {
+    "type": "String"
+  },
+  "img_url": {
+    "type": "String"
+  },
+  "price": {
+    "type": "Number"
+  },
+  "availability_status": {
+    "type": "regex",
+    "regex": "^(IN_STOCK|OUT_OF_STOCK)$"
+  },
+  "description": {
+    "type": "String"
+  },
+  "q": {
+    "type": "String",
+    "minlength": 3,
+    "maxlength": "50"
+  },
+  "admin_token": {
+    "type": "String",
+    "length": 32
+  }
 }
 ```
 
 3. Import and use _quick-validate_ in your **app.js**
 
 Using ES6 (Recommended)
+
 ```js
-import * as quickValidate from 'quick-validate';
-import apiValidations from './validations/apiValidations.json';
-import validationSchema from './validations/validationSchema.json';
-import express from 'express';
+import * as quickValidate from "quick-validate";
+import apiValidations from "./validations/apiValidations.json";
+import validationSchema from "./validations/validationSchema.json";
+import express from "express";
 
 const app = express();
 quickValidate.enableValidations(app, apiValidations, validationSchema, true);
 ```
 
 Good ol' way
+
 ```js
-var quickValidate = require('quick-validate');
-var apiValidations = require('./validations/apiValidations.json');
-var validationSchema = require('./validations/validationSchema.json');
-var express = require('express');
+var quickValidate = require("quick-validate");
+var apiValidations = require("./validations/apiValidations.json");
+var validationSchema = require("./validations/validationSchema.json");
+var express = require("express");
 
 var app = express();
 quickValidate.enableValidations(app, apiValidations, validationSchema, true);
@@ -151,13 +142,13 @@ quickValidate.enableValidations(app, apiValidations, validationSchema, true);
 4. Intercept validation errors with middleware
 
 ```js
-app.use(function(err, req, res, next) {
-	res.json({
-		ok: false,
-		error: {
-			code: err.code,
-			reason: err.message
-		}
-	})
+app.use(function (err, req, res, next) {
+  res.json({
+    ok: false,
+    error: {
+      code: err.code,
+      reason: err.message,
+    },
+  });
 });
 ```

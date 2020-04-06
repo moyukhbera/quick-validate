@@ -1,4 +1,5 @@
 import * as quickValidate from './quickValidate';
+import * as Logger from './logging/logger';
 
 export const getValue = (obj, key) => {
     let keys = key.split('.');
@@ -12,12 +13,10 @@ export const getValue = (obj, key) => {
 }
 
 export const getValidationDefForFieldList = (validationDefObj, fieldNameList, validationSchema, isRequired) => {
-    console.log(JSON.stringify(validationSchema));
     let obj = validationDefObj;
     for (let i = 0; i < fieldNameList.length; i++) {
         let fieldName = fieldNameList[i];
         obj[fieldName] = getValue(validationSchema, fieldName);
-        console.log('fieldName ->', fieldName);
         if (!obj[fieldName]) {
             throw new Error(fieldName + ' not found in validation schema');
         }
@@ -28,7 +27,6 @@ export const getValidationDefForFieldList = (validationDefObj, fieldNameList, va
 
 export const getSchemaForValidatedFields = (fieldConfig, validationSchema) => {
     let obj = {};
-    console.log('fieldConfig: ' + JSON.stringify(fieldConfig));
 
     if (fieldConfig.required) {
         getValidationDefForFieldList(obj, fieldConfig.required, validationSchema, true);
@@ -65,7 +63,6 @@ export const setParamRouteValidations = (routesJSON) => {
             }
         }
     }
-    console.log('setParamRouteValidations:', JSON.stringify(paramAuthRoutes));
     return paramAuthRoutes;
 };
 
@@ -90,7 +87,6 @@ export const enableValidations = (app, apiValidations, validationSchema, removeE
 
 export const validateReqPart = (partName, req, routeValidations, validationSchema, next) => {
     let fieldValidationCfg = getSchemaForValidatedFields(routeValidations[partName], validationSchema);
-    console.log(JSON.stringify(fieldValidationCfg));
     quickValidate.validate(req[partName], fieldValidationCfg);
 }
 
@@ -99,7 +95,6 @@ export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) 
         let httpMethod = req.method;
         let url = req.originalUrl.toLowerCase().split('\?')[0];
 
-        console.log('Validating...');
         if (apiValidations) {
             let httpMethodValidations = apiValidations[httpMethod];
             if (!httpMethodValidations)
@@ -111,14 +106,11 @@ export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) 
             else
                 routeValidations = httpMethodValidations[url];
 
-            console.log('routeValidations: ' + JSON.stringify(routeValidations));
             if (!routeValidations)
                 return next();
 
-            console.log('Stripping additional attributes...');
             //Stripping additional attributes
             if (httpMethod === 'POST' || httpMethod === 'PUT') {
-                console.log(JSON.stringify(routeValidations.body), removeExtraAttrs);
                 if (routeValidations.body && removeExtraAttrs) {
                     let requiredAttrs = (routeValidations.body.required) ? routeValidations.body.required : [];
                     let optionalAttrs = (routeValidations.body.optional) ? routeValidations.body.optional : [];
@@ -136,7 +128,7 @@ export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) 
                     }
                 }
             }
-            console.log('routeValidations: ' + JSON.stringify(routeValidations));
+            Logger.info('routeValidations: ' + JSON.stringify(routeValidations));
             try {
                 if (routeValidations.body) {
                     validateReqPart('body', req, routeValidations, validationSchema, next);
