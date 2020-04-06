@@ -226,3 +226,70 @@ _regex_ and _enum_ fields doesn't need to specify _type_
   }
 }
 ```
+
+#### Putting it all together
+
+<u>validationSchema.json</u>
+
+```json
+{
+  "username": {
+    "type": "String",
+    "minlength": 5,
+    "maxlength": 15
+  },
+  "password": {
+    "type": "password"
+  },
+  "email": {
+    "type": "email"
+  },
+  "gender": {
+    "enumVals": ["M", "F", "T"]
+  },
+  "age": {
+    "type": "Number"
+  },
+  "is_married": {
+    "type": "boolean"
+  },
+  "name": {
+    "type": "String",
+    "minlength": 5,
+    "maxlength": 40
+  },
+  "x-forwarded-for": {
+    "regex": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+  }
+}
+```
+
+<u>apivalidations.json</u>
+
+```json
+{
+  "POST": {
+    "/user/signup": {
+      "body": {
+        "required": [
+          "username",
+          "password",
+          "email",
+          "gender",
+          "age",
+          "is_married",
+          "name"
+        ]
+      },
+      "headers": {
+        "required": ["x-forwarded-for"]
+      }
+    },
+    "/user/login": {
+      "body": {
+        "required": ["username", "password"]
+      }
+    }
+  }
+}
+```
