@@ -152,3 +152,52 @@ app.use(function (err, req, res, next) {
   });
 });
 ```
+
+#### Schema Properties
+
+Click on name to see example
+
+| name                             | purpose                               |
+| -------------------------------- | :------------------------------------ |
+| [type](#head_supported_types)    | datatype of attribute                 |
+| [length](#head_length)           | length of 'String' type attribute     |
+| [minlength](#head_minmax_length) | min length of 'String' type attribute |
+| maxlength                        | max length of 'String' type attribute |
+| regex                            | Pattern for regex type attribute      |
+
+#### <a name="head_supported_types"></a>Supported 'type'(s)
+
+| type    | purpose                                    |
+| ------- | :----------------------------------------- |
+| String  | Any string                                 |
+| Number  | int, float or any string representing same |
+| boolean | boolean                                    |
+| Array   | Any array                                  |
+| regex   | any given pattern                          |
+| enum    | max length of 'String' type attribute      |
+| Object  | Any Object                                 |
+
+##### Examples
+
+<a name="head_length"></a>length
+
+```json
+{
+  "otp": {
+    "type": "String",
+    "length": 4
+  }
+}
+```
+
+<a name="head_minmax_length"></a>minlength maxlength
+
+```json
+{
+  "username": {
+    "type": "String",
+    "minlength": 5,
+    "maxlength": 15
+  }
+}
+```
