@@ -1,7 +1,7 @@
 {
   "name": "quick-validate",
-  "version": "1.0.0",
-  "description": "Node module for configurable API validations",
+  "version": "0.0.2",
+  "description": "Express.js middleware for quick configurable API validations",
   "main": "lib/index.js",
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -27,10 +27,11 @@
     ]
   },
   "keywords": [
-    "express.js",
+    "express",
     "validation",
     "api",
-    "node.js"
+    "node.js",
+    "middleware"
   ],
   "author": "Moyukh Bera",
   "license": "ISC"
