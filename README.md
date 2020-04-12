@@ -6,7 +6,7 @@
 
 ### Features
 
-- **Simple** - Provides a simple and quick way to configure API validations
+- **Simple** - Provides a simple and quick way to configure API validations.
 - **Clean** - Unlike other libraries, _quick-validate_ does not require you to write a lot of code for adding simple validations. It uses simple JSON configuration files which do not pollute application code.
 - **Readable** - The validations are much more readable and comprehensible.
 
@@ -16,9 +16,9 @@
 
 ### Usage
 
-1. Create a directory named **validations** inside root of your project. This is not required but is recommended as a good practice.
+- Create a directory named **validations** inside root of your project. This is not required but is recommended as a good practice.
 
-2. Create 2 files inside the **validations** directory - [apiValidations.json](#head_apiValidations) and [validationSchema.json](#head_validationSchema)
+- Create 2 files inside the **validations** directory - [apiValidations.json](#head_apiValidations) and [validationSchema.json](#head_validationSchema)
 
 _apiValidations.json_ should specify validations for each endpoint. _validationSchema.json_ should specify type and other constraints about each attribute to be validated.
 
@@ -113,7 +113,7 @@ As shown in above example, the configuration object structure should be
 }
 ```
 
-3. Import and use _quick-validate_ in your **app.js**
+- Import and use _quick-validate_ in your **app.js**
 
 Using ES6 (Recommended)
 
@@ -139,7 +139,7 @@ var app = express();
 quickValidate.enableValidations(app, apiValidations, validationSchema, true);
 ```
 
-4. Intercept validation errors with middleware
+- Intercept validation errors with middleware
 
 ```js
 app.use(function (err, req, res, next) {
