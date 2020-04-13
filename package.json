@@ -1,6 +1,6 @@
 {
   "name": "quick-validate",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Express.js middleware for quick configurable API validations",
   "main": "lib/index.js",
   "devDependencies": {

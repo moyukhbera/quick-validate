@@ -87,7 +87,7 @@ export const enableValidations = (app, apiValidations, validationSchema, removeE
 
 export const validateReqPart = (partName, req, routeValidations, validationSchema, next) => {
     let fieldValidationCfg = getSchemaForValidatedFields(routeValidations[partName], validationSchema);
-    quickValidate.validate(req[partName], fieldValidationCfg);
+    quickValidate.validate(req[partName], fieldValidationCfg, partName);
 }
 
 export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) => {
@@ -146,7 +146,6 @@ export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) 
             }
 
         }
-        // req.body = (req.body) ? JSON.parse(JSON.stringify(req.body)) : req.body;
         next();
     };
 }

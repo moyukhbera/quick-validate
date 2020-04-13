@@ -243,6 +243,37 @@ test('validate throws validation error if Number type field has non-numeric valu
     }
 });
 
+test('validate throws validation error if Number type field for query param has non-numeric value', () => {
+    let validationSchema = {
+        "page": {
+            "type": "Number",
+            "missing_err_code": 1012,
+            "invalid_err_code": 1005
+        }
+    };
+    try {
+        quickValidate.validate({ page: "abc" }, validationSchema, 'query')
+    } catch (e) {
+        expect(e.message).toBe('page should be a Number');
+    }
+});
+
+test('validate throws validation error if Number type field for query param has non-numeric value', () => {
+    let validationSchema = {
+        "page": {
+            "type": "Number",
+            "missing_err_code": 1012,
+            "invalid_err_code": 1005
+        }
+    };
+    try {
+        let queryParams = { page: "1" };
+        quickValidate.validate(queryParams, validationSchema, 'query');
+        expect(queryParams.page).toBe(1);
+    } catch (e) {
+    }
+});
+
 test('validate throws validation error if Object type field has primitive values', () => {
     let validationSchema = {
         "cart": {

@@ -101,7 +101,7 @@ const PASSWORD_CRITERIA_STR = 'must be 8-15 characters, should contain atleast 1
     }
 }
  */
-export const validate = (obj, validationConfig) => {
+export const validate = (obj, validationConfig, reqPartName) => {
     if (!obj)
         obj = {};
 
@@ -127,8 +127,9 @@ export const validate = (obj, validationConfig) => {
                     throwErrorWithCode(fieldName + ' ' + PASSWORD_CRITERIA_STR, errCode);
                 } else if (fieldValidations[key] === 'String' && !isString(obj[fieldName])) {
                     throwErrorWithCode(fieldName + ' should be a String', errCode);
-                } else if (fieldValidations[key] === 'Number' && !isNumber(obj[fieldName])) {
-                    throwErrorWithCode(fieldName + ' should be a Number', errCode);
+                } else if (fieldValidations[key] === 'Number') {
+                    let val = obj[fieldName];
+                    validateNumericField(val, reqPartName, fieldName, errCode, obj);
                 } else if (fieldValidations[key] === 'Object' && !(obj[fieldName] instanceof Object)) {
                     throwErrorWithCode(fieldName + ' should be an Object', errCode);
                 } else if (fieldValidations[key] === 'Array' && !(obj[fieldName] instanceof Array)) {
@@ -151,4 +152,16 @@ export const validate = (obj, validationConfig) => {
             }
         }
     }
+}
+
+const validateNumericField = (val, reqPartName, fieldName, errCode, obj) => {
+    if (typeof val === 'string' || val instanceof String) {
+        if (reqPartName !== 'query') {
+            throwErrorWithCode(fieldName + ' should be a Number', errCode);
+        }
+    }
+    if (!isNumber(val)) {
+        throwErrorWithCode(fieldName + ' should be a Number', errCode);
+    }
+    obj[fieldName] = parseFloat(val);
 }
