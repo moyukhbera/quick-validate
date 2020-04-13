@@ -179,8 +179,8 @@ Click on property name to see example
 | Object   | Any Object                                 |
 | email    | valid email                                |
 | password | matches strict password policy             |
-
-_regex_ and _enum_ fields doesn't need to specify _type_
+| enum     | matches a set of given values              |
+| regex    | matches a given regex pattern              |
 
 ##### Examples
 
@@ -212,6 +212,7 @@ _regex_ and _enum_ fields doesn't need to specify _type_
 ```json
 {
   "ip": {
+    "type": "regex",
     "regex": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
   }
 }
@@ -222,6 +223,7 @@ _regex_ and _enum_ fields doesn't need to specify _type_
 ```json
 {
   "availability_status": {
+    "type": "enum",
     "enumVals": ["IN_STOCK", "OUT_OF_STOCK"]
   }
 }
@@ -245,6 +247,7 @@ _regex_ and _enum_ fields doesn't need to specify _type_
     "type": "email"
   },
   "gender": {
+    "type": "enum",
     "enumVals": ["M", "F", "T"]
   },
   "age": {
@@ -259,6 +262,7 @@ _regex_ and _enum_ fields doesn't need to specify _type_
     "maxlength": 40
   },
   "x-forwarded-for": {
+    "type": "regex",
     "regex": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
   }
 }
@@ -271,15 +275,8 @@ _regex_ and _enum_ fields doesn't need to specify _type_
   "POST": {
     "/user/signup": {
       "body": {
-        "required": [
-          "username",
-          "password",
-          "email",
-          "gender",
-          "age",
-          "is_married",
-          "name"
-        ]
+        "required": ["username", "password", "email", "gender", "age", "name"],
+        "optional": ["is_married"]
       },
       "headers": {
         "required": ["x-forwarded-for"]
