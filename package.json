@@ -1,7 +1,7 @@
 {
   "name": "quick-validate",
-  "version": "1.0.0",
-  "description": "Express.js middleware for quick configurable API validations",
+  "version": "1.0.1",
+  "description": "Express middleware for quick configurable API validations",
   "main": "lib/index.js",
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -29,9 +29,10 @@
   "keywords": [
     "express",
     "validation",
+    "validate",
     "api",
-    "node.js",
-    "middleware"
+    "middleware",
+    "expressjs"
   ],
   "repository": {
     "type": "git",
