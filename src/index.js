@@ -102,10 +102,12 @@ export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) 
                 return next();
             let routeValidations = {};
             let paramRouteValidations = getValidationForParamRoute(httpMethod, url);
-            if (paramRouteValidations)
+            if (paramRouteValidations) {
                 routeValidations = paramRouteValidations;
-            else
+            }
+            else {
                 routeValidations = httpMethodValidations[url];
+            }
 
             if (!routeValidations) {
                 return next();

@@ -80,7 +80,7 @@ test("validMinLength throws error of value is not string or array", () => {
 });
 
 test("validMinLength throws error of value if no value is passed", () => {
-    expect(() => { quickValidate.validMinLength(null, 2) }).toThrow(Error);
+    expect(() => { quickValidate.validMinLength(null, 2); }).toThrow(Error);
 });
 
 test("validMaxLength returns true of length <= max_length provided", () => {
@@ -108,7 +108,7 @@ test("validEnum returns false in case of invalid enum", () => {
 });
 
 test("validEnum throws error of value if no value is passed", () => {
-    expect(() => { quickValidate.validEnum(null, ["S", "M"]) }).toThrow(Error);
+    expect(() => { quickValidate.validEnum(null, ["S", "M"]); }).toThrow(Error);
 });
 
 test("validate throws Error if field validation schema does not have type", () => {
@@ -441,5 +441,5 @@ test("validate ignores field checks for which are not supported", () => {
             xyz: "abc"
         }
     };
-    expect(() => { quickValidate.validate({ cart: {} }, validationSchema) }).not.toThrow(Error);
+    expect(() => { quickValidate.validate({ cart: {} }, validationSchema); }).not.toThrow(Error);
 });

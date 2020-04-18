@@ -6,8 +6,9 @@ export const validMaxLength = (val, maxlength) => {
         throw new Error("maxlength validation works on String or Array");
     }
 
-    if (val.length > maxlength)
+    if (val.length > maxlength) {
         return false;
+    }
     return true;
 }
 
@@ -17,8 +18,9 @@ export const validMinLength = (val, minlength) => {
     if (!(typeof val === "string") && !(Object.prototype.toString.call(val) === "[object Array]")) {
         throw new Error("minlength validation works on String or Array");
     }
-    if (val.length < minlength)
+    if (val.length < minlength) {
         return false;
+    }
     return true;
 }
 
@@ -28,8 +30,9 @@ export const validLength = (val, length) => {
     if (!(typeof val === "string") && !(Object.prototype.toString.call(val) === "[object Array]")) {
         throw new Error("length validation works on String or Array");
     }
-    if (val.length != length)
+    if (val.length !== length) {
         return false;
+    }
     return true;
 }
 
@@ -102,8 +105,9 @@ const PASSWORD_CRITERIA_STR = "must be 8-15 characters, should contain atleast 1
 }
  */
 export const validate = (obj, validationConfig, reqPartName) => {
-    if (!obj)
+    if (!obj) {
         obj = {};
+    }
 
     for (let fieldName in validationConfig) {
         let fieldValidations = validationConfig[fieldName];

@@ -42,7 +42,7 @@ test("getValidationDefForFieldList throws Error if validation schema does not co
             "username": {
                 "type": "email"
             }
-        }, true)
+        }, true);
     }).toThrow(Error);
 });
 
@@ -514,7 +514,7 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
     let req = {
         method: "GET",
         originalUrl: "/cart"
-    }
+    };
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
         expect(err).not.toBe(undefined);
     });
