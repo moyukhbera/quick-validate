@@ -1,8 +1,8 @@
-import * as quickValidate from './quickValidate';
-import * as Logger from './logging/logger';
+import * as quickValidate from "./quickValidate";
+import * as Logger from "./logging/logger";
 
 export const getValue = (obj, key) => {
-    let keys = key.split('.');
+    let keys = key.split(".");
     if (obj[keys[0]]) {
         let val = obj[keys[0]];
 
@@ -18,9 +18,9 @@ export const getValidationDefForFieldList = (validationDefObj, fieldNameList, va
         let fieldName = fieldNameList[i];
         obj[fieldName] = getValue(validationSchema, fieldName);
         if (!obj[fieldName]) {
-            throw new Error(fieldName + ' not found in validation schema');
+            throw new Error(fieldName + " not found in validation schema");
         }
-        obj[fieldName]['required'] = isRequired;
+        obj[fieldName]["required"] = isRequired;
     }
     return obj;
 }
@@ -58,8 +58,8 @@ export const resetParamAuthRoutes = () => {
 export const setParamRouteValidations = (routesJSON) => {
     for (const httpMethod in routesJSON) {
         for (const url in routesJSON[httpMethod]) {
-            if (url.indexOf(':') > -1) {
-                paramAuthRoutes[httpMethod][url.replace(/:[a-zA-Z0-9-_]+/g, '[a-zA-Z0-9-]+')] = routesJSON[httpMethod][url];
+            if (url.indexOf(":") > -1) {
+                paramAuthRoutes[httpMethod][url.replace(/:[a-zA-Z0-9-_]+/g, "[a-zA-Z0-9-]+")] = routesJSON[httpMethod][url];
             }
         }
     }
@@ -93,7 +93,7 @@ export const validateReqPart = (partName, req, routeValidations, validationSchem
 export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) => {
     return function (req, res, next) {
         let httpMethod = req.method;
-        let url = req.originalUrl.toLowerCase().split('\?')[0];
+        let url = req.originalUrl.toLowerCase().split("\?")[0];
 
         if (apiValidations) {
             let httpMethodValidations = apiValidations[httpMethod];
@@ -110,7 +110,7 @@ export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) 
                 return next();
 
             //Stripping additional attributes
-            if (httpMethod === 'POST' || httpMethod === 'PUT') {
+            if (httpMethod === "POST" || httpMethod === "PUT") {
                 if (routeValidations.body && removeExtraAttrs) {
                     let requiredAttrs = (routeValidations.body.required) ? routeValidations.body.required : [];
                     let optionalAttrs = (routeValidations.body.optional) ? routeValidations.body.optional : [];
@@ -122,24 +122,24 @@ export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) 
                     req.body = bodyTmp;
                     for (let i = 0; i < optionalAttrs.length; i++) {
                         let attributeName = optionalAttrs[i];
-                        if (req.body[attributeName] === '') {
+                        if (req.body[attributeName] === "") {
                             delete req.body[attributeName];
                         }
                     }
                 }
             }
-            Logger.info('routeValidations: ' + JSON.stringify(routeValidations));
+            Logger.info("routeValidations: " + JSON.stringify(routeValidations));
             try {
                 if (routeValidations.body) {
-                    validateReqPart('body', req, routeValidations, validationSchema, next);
+                    validateReqPart("body", req, routeValidations, validationSchema, next);
                 }
 
                 if (routeValidations.query) {
-                    validateReqPart('query', req, routeValidations, validationSchema, next);
+                    validateReqPart("query", req, routeValidations, validationSchema, next);
                 }
 
                 if (routeValidations.headers) {
-                    validateReqPart('headers', req, routeValidations, validationSchema, next);
+                    validateReqPart("headers", req, routeValidations, validationSchema, next);
                 }
             } catch (e) {
                 return next(e);

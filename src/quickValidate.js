@@ -1,9 +1,9 @@
 
 export const validMaxLength = (val, maxlength) => {
     if (!val)
-        throw new Error('maxlength needs a value to validate');
-    if (!(typeof val === 'string') && !(Object.prototype.toString.call(val) === '[object Array]')) {
-        throw new Error('maxlength validation works on String or Array');
+        throw new Error("maxlength needs a value to validate");
+    if (!(typeof val === "string") && !(Object.prototype.toString.call(val) === "[object Array]")) {
+        throw new Error("maxlength validation works on String or Array");
     }
 
     if (val.length > maxlength)
@@ -13,9 +13,9 @@ export const validMaxLength = (val, maxlength) => {
 
 export const validMinLength = (val, minlength) => {
     if (!val)
-        throw new Error('minlength needs a value to validate');
-    if (!(typeof val === 'string') && !(Object.prototype.toString.call(val) === '[object Array]')) {
-        throw new Error('minlength validation works on String or Array');
+        throw new Error("minlength needs a value to validate");
+    if (!(typeof val === "string") && !(Object.prototype.toString.call(val) === "[object Array]")) {
+        throw new Error("minlength validation works on String or Array");
     }
     if (val.length < minlength)
         return false;
@@ -24,9 +24,9 @@ export const validMinLength = (val, minlength) => {
 
 export const validLength = (val, length) => {
     if (!val)
-        throw new Error('length needs a value to validate');
-    if (!(typeof val === 'string') && !(Object.prototype.toString.call(val) === '[object Array]')) {
-        throw new Error('length validation works on String or Array');
+        throw new Error("length needs a value to validate");
+    if (!(typeof val === "string") && !(Object.prototype.toString.call(val) === "[object Array]")) {
+        throw new Error("length validation works on String or Array");
     }
     if (val.length != length)
         return false;
@@ -35,7 +35,7 @@ export const validLength = (val, length) => {
 
 export const validEnum = (val, enumVals) => {
     if (!val)
-        throw new Error('enum needs values to validate');
+        throw new Error("enum needs values to validate");
     if (enumVals.indexOf(val) === -1) {
         return false;
     }
@@ -51,11 +51,11 @@ export const isNumber = (n) => {
 }
 
 export const isString = (val) => {
-    return typeof val === 'string';
+    return typeof val === "string";
 }
 
 export const isBoolean = (val) => {
-    return typeof val === 'boolean';
+    return typeof val === "boolean";
 }
 
 export const validEmail = (email) => {
@@ -75,7 +75,7 @@ function throwErrorWithCode(errMsg, code = 1001) {
     throw err;
 }
 
-const PASSWORD_CRITERIA_STR = 'must be 8-15 characters, should contain atleast 1 special character, 1 digit, 1 lower case and 1 upper case character';
+const PASSWORD_CRITERIA_STR = "must be 8-15 characters, should contain atleast 1 special character, 1 digit, 1 lower case and 1 upper case character";
 
 /**
  * 
@@ -109,44 +109,44 @@ export const validate = (obj, validationConfig, reqPartName) => {
         let fieldValidations = validationConfig[fieldName];
         let errCode = fieldValidations.invalid_err_code;
         if (!fieldValidations.type) {
-            throw new Error("Validation field 'type' required for field '" + fieldName + "'");
+            throw new Error("Validation field "type" required for field "" + fieldName + """);
         }
 
         if (fieldValidations.required && obj[fieldName] !== false && !obj[fieldName]) {
-            throwErrorWithCode(fieldName + ' is required', (fieldValidations.missing_err_code || 1111));
+            throwErrorWithCode(fieldName + " is required", (fieldValidations.missing_err_code || 1111));
         }
 
-        if (obj[fieldName] !== false && obj[fieldName] !== '' && !obj[fieldName])
+        if (obj[fieldName] !== false && obj[fieldName] !== "" && !obj[fieldName])
             return;
 
         for (let key in fieldValidations) {
-            if (key === 'type') {
-                if (fieldValidations[key] === 'email' && !validEmail(obj[fieldName])) {
-                    throwErrorWithCode(fieldName + ' should be a valid email', errCode);
-                } else if (fieldValidations[key] === 'password' && (!isStrongPassword(obj[fieldName]))) {
-                    throwErrorWithCode(fieldName + ' ' + PASSWORD_CRITERIA_STR, errCode);
-                } else if (fieldValidations[key] === 'String' && !isString(obj[fieldName])) {
-                    throwErrorWithCode(fieldName + ' should be a String', errCode);
-                } else if (fieldValidations[key] === 'Number') {
+            if (key === "type") {
+                if (fieldValidations[key] === "email" && !validEmail(obj[fieldName])) {
+                    throwErrorWithCode(fieldName + " should be a valid email", errCode);
+                } else if (fieldValidations[key] === "password" && (!isStrongPassword(obj[fieldName]))) {
+                    throwErrorWithCode(fieldName + " " + PASSWORD_CRITERIA_STR, errCode);
+                } else if (fieldValidations[key] === "String" && !isString(obj[fieldName])) {
+                    throwErrorWithCode(fieldName + " should be a String", errCode);
+                } else if (fieldValidations[key] === "Number") {
                     let val = obj[fieldName];
                     validateNumericField(val, reqPartName, fieldName, errCode, obj);
-                } else if (fieldValidations[key] === 'Object' && !(obj[fieldName] instanceof Object)) {
-                    throwErrorWithCode(fieldName + ' should be an Object', errCode);
-                } else if (fieldValidations[key] === 'Array' && !(obj[fieldName] instanceof Array)) {
-                    throwErrorWithCode(fieldName + ' should be an Array', errCode);
-                } else if (fieldValidations[key] === 'boolean' && !isBoolean(obj[fieldName])) {
-                    throwErrorWithCode(fieldName + ' should be a Boolean', errCode);
+                } else if (fieldValidations[key] === "Object" && !(obj[fieldName] instanceof Object)) {
+                    throwErrorWithCode(fieldName + " should be an Object", errCode);
+                } else if (fieldValidations[key] === "Array" && !(obj[fieldName] instanceof Array)) {
+                    throwErrorWithCode(fieldName + " should be an Array", errCode);
+                } else if (fieldValidations[key] === "boolean" && !isBoolean(obj[fieldName])) {
+                    throwErrorWithCode(fieldName + " should be a Boolean", errCode);
                 }
-            } else if (key === 'length' && !validLength(obj[fieldName], fieldValidations[key])) {
-                throwErrorWithCode(fieldName + ' should be of length ' + fieldValidations[key], errCode);
-            } else if (key === 'maxlength' && !validMaxLength(obj[fieldName], fieldValidations[key])) {
-                throwErrorWithCode(fieldName + ' should not exceed length of ' + fieldValidations[key], errCode);
-            } else if (key === 'minlength' && !validMinLength(obj[fieldName], fieldValidations[key])) {
-                throwErrorWithCode(fieldName + ' should be minimum length of ' + fieldValidations[key], errCode);
-            } else if (key === 'enumVals' && !validEnum(obj[fieldName], fieldValidations[key])) {
-                throwErrorWithCode(fieldName + ' should be any of ' + JSON.stringify(fieldValidations[key], errCode));
-            } else if (key === 'regex' && !validRegex(obj[fieldName], fieldValidations[key])) {
-                throwErrorWithCode(fieldName + ' value unexpected', errCode);
+            } else if (key === "length" && !validLength(obj[fieldName], fieldValidations[key])) {
+                throwErrorWithCode(fieldName + " should be of length " + fieldValidations[key], errCode);
+            } else if (key === "maxlength" && !validMaxLength(obj[fieldName], fieldValidations[key])) {
+                throwErrorWithCode(fieldName + " should not exceed length of " + fieldValidations[key], errCode);
+            } else if (key === "minlength" && !validMinLength(obj[fieldName], fieldValidations[key])) {
+                throwErrorWithCode(fieldName + " should be minimum length of " + fieldValidations[key], errCode);
+            } else if (key === "enumVals" && !validEnum(obj[fieldName], fieldValidations[key])) {
+                throwErrorWithCode(fieldName + " should be any of " + JSON.stringify(fieldValidations[key], errCode));
+            } else if (key === "regex" && !validRegex(obj[fieldName], fieldValidations[key])) {
+                throwErrorWithCode(fieldName + " value unexpected", errCode);
             } else {
                 continue;
             }
@@ -155,13 +155,13 @@ export const validate = (obj, validationConfig, reqPartName) => {
 }
 
 const validateNumericField = (val, reqPartName, fieldName, errCode, obj) => {
-    if (typeof val === 'string' || val instanceof String) {
-        if (reqPartName !== 'query') {
-            throwErrorWithCode(fieldName + ' should be a Number', errCode);
+    if (typeof val === "string" || val instanceof String) {
+        if (reqPartName !== "query") {
+            throwErrorWithCode(fieldName + " should be a Number", errCode);
         }
     }
     if (!isNumber(val)) {
-        throwErrorWithCode(fieldName + ' should be a Number', errCode);
+        throwErrorWithCode(fieldName + " should be a Number", errCode);
     }
     obj[fieldName] = parseFloat(val);
 }
