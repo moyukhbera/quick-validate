@@ -109,7 +109,7 @@ export const validate = (obj, validationConfig, reqPartName) => {
         let fieldValidations = validationConfig[fieldName];
         let errCode = fieldValidations.invalid_err_code;
         if (!fieldValidations.type) {
-            throw new Error("Validation field "type" required for field "" + fieldName + """);
+            throw new Error("Validation field \"type\" required for field \"" + fieldName + "\"");
         }
 
         if (fieldValidations.required && obj[fieldName] !== false && !obj[fieldName]) {

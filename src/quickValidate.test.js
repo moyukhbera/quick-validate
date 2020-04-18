@@ -121,7 +121,7 @@ test("validate throws Error if field validation schema does not have type", () =
     try {
         quickValidate.validate({ username: "test@test.com" }, validationSchema)
     } catch (e) {
-        expect(e.message).toBe("Validation field "type" required for field "username"");
+        expect(e.message).toBe("Validation field \"type\" required for field \"username\"");
     }
 });
 
