@@ -6,8 +6,9 @@ export const getValue = (obj, key) => {
     if (obj[keys[0]]) {
         let val = obj[keys[0]];
 
-        if (!val || keys.length < 2)
+        if (!val || keys.length < 2) {
             return val;
+        }
         return val[keys[1]];
     }
 }
@@ -106,8 +107,9 @@ export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) 
             else
                 routeValidations = httpMethodValidations[url];
 
-            if (!routeValidations)
+            if (!routeValidations) {
                 return next();
+            }
 
             //Stripping additional attributes
             if (httpMethod === "POST" || httpMethod === "PUT") {

@@ -60,11 +60,11 @@ test("validLength returns false of length is not matching", () => {
 });
 
 test("validLength throws error of value is not string or array", () => {
-    expect(() => { quickValidate.validLength(1234, 4) }).toThrow(Error);
+    expect(() => { quickValidate.validLength(1234, 4); }).toThrow(Error);
 });
 
 test("validLength throws error of value if no value is passed", () => {
-    expect(() => { quickValidate.validLength(null, 2) }).toThrow(Error);
+    expect(() => { quickValidate.validLength(null, 2); }).toThrow(Error);
 });
 
 test("validMinLength returns true of length >= min_length provided", () => {
@@ -76,7 +76,7 @@ test("validMinLength returns false of length < min_length provided", () => {
 });
 
 test("validMinLength throws error of value is not string or array", () => {
-    expect(() => { quickValidate.validMinLength(1234, 2) }).toThrow(Error);
+    expect(() => { quickValidate.validMinLength(1234, 2); }).toThrow(Error);
 });
 
 test("validMinLength throws error of value if no value is passed", () => {
@@ -92,11 +92,11 @@ test("validMaxLength returns false of length > max_length provided", () => {
 });
 
 test("validMaxLength throws error of value is not string or array", () => {
-    expect(() => { quickValidate.validMaxLength(1234, 8) }).toThrow(Error);
+    expect(() => { quickValidate.validMaxLength(1234, 8); }).toThrow(Error);
 });
 
 test("validMaxLength throws error of value if no value is passed", () => {
-    expect(() => { quickValidate.validMaxLength(null, 2) }).toThrow(Error);
+    expect(() => { quickValidate.validMaxLength(null, 2); }).toThrow(Error);
 });
 
 test("validEnum returns true in case of valid enum", () => {
@@ -119,7 +119,7 @@ test("validate throws Error if field validation schema does not have type", () =
         }
     };
     try {
-        quickValidate.validate({ username: "test@test.com" }, validationSchema)
+        quickValidate.validate({ username: "test@test.com" }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("Validation field \"type\" required for field \"username\"");
     }
@@ -135,7 +135,7 @@ test("validate throws Error if field is required but data is null", () => {
         }
     };
     expect(() => {
-        quickValidate.validate(null, validationSchema)
+        quickValidate.validate(null, validationSchema);
     }).toThrow(Error);
 });
 
@@ -149,7 +149,7 @@ test("validate throws Error if field is required but same is missing in data", (
         }
     };
     try {
-        quickValidate.validate({ phone_no: "9831012345" }, validationSchema)
+        quickValidate.validate({ phone_no: "9831012345" }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("username is required");
     }
@@ -164,7 +164,7 @@ test("validate throws Error with 1111 code if required field is missing and sche
         }
     };
     try {
-        quickValidate.validate({ phone_no: "9831012345" }, validationSchema)
+        quickValidate.validate({ phone_no: "9831012345" }, validationSchema);
     } catch (e) {
         expect(e.code).toBe(1111);
     }
@@ -180,7 +180,7 @@ test("validate throws Error if email field has non-email value", () => {
         }
     };
     try {
-        quickValidate.validate({ username: "9831012345" }, validationSchema)
+        quickValidate.validate({ username: "9831012345" }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("username should be a valid email");
     }
@@ -194,7 +194,7 @@ test("validate skips field which are not required and not in data", () => {
             "invalid_err_code": 1005
         }
     };
-    expect(() => { quickValidate.validate({}, validationSchema) }).not.toThrow(Error);
+    expect(() => { quickValidate.validate({}, validationSchema); }).not.toThrow(Error);
 
 });
 
@@ -207,7 +207,7 @@ test("validate throws validation error if password type field does not match str
         }
     };
     try {
-        quickValidate.validate({ password: "12345" }, validationSchema)
+        quickValidate.validate({ password: "12345" }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("password must be 8-15 characters, should contain atleast 1 special character, 1 digit, 1 lower case and 1 upper case character");
     }
@@ -222,7 +222,7 @@ test("validate throws validation error if String type field has non-string value
         }
     };
     try {
-        quickValidate.validate({ name: 12345 }, validationSchema)
+        quickValidate.validate({ name: 12345 }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("name should be a String");
     }
@@ -237,7 +237,7 @@ test("validate throws validation error if Number type field has non-numeric valu
         }
     };
     try {
-        quickValidate.validate({ amt_to_transfer: "1000" }, validationSchema)
+        quickValidate.validate({ amt_to_transfer: "1000" }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("amt_to_transfer should be a Number");
     }
@@ -252,7 +252,7 @@ test("validate throws validation error if Number type field for query param has 
         }
     };
     try {
-        quickValidate.validate({ page: "abc" }, validationSchema, "query")
+        quickValidate.validate({ page: "abc" }, validationSchema, "query");
     } catch (e) {
         expect(e.message).toBe("page should be a Number");
     }
@@ -271,6 +271,7 @@ test("validate throws validation error if Number type field for query param has 
         quickValidate.validate(queryParams, validationSchema, "query");
         expect(queryParams.page).toBe(1);
     } catch (e) {
+        //Nothing to catch here
     }
 });
 
@@ -283,7 +284,7 @@ test("validate throws validation error if Object type field has primitive values
         }
     };
     try {
-        quickValidate.validate({ cart: 12345 }, validationSchema)
+        quickValidate.validate({ cart: 12345 }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("cart should be an Object");
     }
@@ -298,7 +299,7 @@ test("validate throws validation error if Array type field has non-array", () =>
         }
     };
     try {
-        quickValidate.validate({ favorite_books: "Outliers" }, validationSchema)
+        quickValidate.validate({ favorite_books: "Outliers" }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("favorite_books should be an Array");
     }
@@ -313,7 +314,7 @@ test("validate throws validation error if boolean type field has non-boolean val
         }
     };
     try {
-        quickValidate.validate({ is_subscribed: "true" }, validationSchema)
+        quickValidate.validate({ is_subscribed: "true" }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("is_subscribed should be a Boolean");
     }
@@ -329,7 +330,7 @@ test("validate throws validation error if string field is not of declared length
         }
     };
     try {
-        quickValidate.validate({ otp: "123456" }, validationSchema)
+        quickValidate.validate({ otp: "123456" }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("otp should be of length 4");
     }
@@ -345,7 +346,7 @@ test("validate throws validation error if array field is not of declared length"
         }
     };
     try {
-        quickValidate.validate({ top_5: ["Go", "Node.js"] }, validationSchema)
+        quickValidate.validate({ top_5: ["Go", "Node.js"] }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("top_5 should be of length 5");
     }
@@ -362,7 +363,7 @@ test("validate throws validation error if string field length < minlength", () =
         }
     };
     try {
-        quickValidate.validate({ name: "Ab" }, validationSchema)
+        quickValidate.validate({ name: "Ab" }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("name should be minimum length of 3");
     }
@@ -378,7 +379,7 @@ test("validate throws validation error if array field is less than declared minl
         }
     };
     try {
-        quickValidate.validate({ top_5: ["Go", "Node.js"] }, validationSchema)
+        quickValidate.validate({ top_5: ["Go", "Node.js"] }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("top_5 should be minimum length of 5");
     }
@@ -394,7 +395,7 @@ test("validate throws validation error if field length > maxlength", () => {
         }
     };
     try {
-        quickValidate.validate({ name: "Abdsfgdfvcsadfgrfjasuytsahhgsd5ewd xagsjgdhcjhg" }, validationSchema)
+        quickValidate.validate({ name: "Abdsfgdfvcsadfgrfjasuytsahhgsd5ewd xagsjgdhcjhg" }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("name should not exceed length of 20");
     }
@@ -410,7 +411,7 @@ test("validate throws validation error if enum field contains non-enum value", (
         }
     };
     try {
-        quickValidate.validate({ size: "XXL" }, validationSchema)
+        quickValidate.validate({ size: "XXL" }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("size should be any of [\"S\",\"M\",\"L\",\"XL\"]");
     }
@@ -427,7 +428,7 @@ test("validate throws validation error if field value does not match regex", () 
         }
     };
     try {
-        quickValidate.validate({ phone_no: "123" }, validationSchema)
+        quickValidate.validate({ phone_no: "123" }, validationSchema);
     } catch (e) {
         expect(e.message).toBe("phone_no value unexpected");
     }
@@ -440,5 +441,5 @@ test("validate ignores field checks for which are not supported", () => {
             xyz: "abc"
         }
     };
-    expect(() => { quickValidate.validate({ cart: {} }, validationSchema) }).not.toThrow(Error)
+    expect(() => { quickValidate.validate({ cart: {} }, validationSchema) }).not.toThrow(Error);
 });

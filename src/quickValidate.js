@@ -164,4 +164,4 @@ const validateNumericField = (val, reqPartName, fieldName, errCode, obj) => {
         throwErrorWithCode(fieldName + " should be a Number", errCode);
     }
     obj[fieldName] = parseFloat(val);
-}
+};
