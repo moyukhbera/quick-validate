@@ -9,7 +9,7 @@ test("getValue gets field value with \".\"", () => {
 });
 
 test("getValue returns undefined for non-existent field", () => {
-    expect(index.getValue({ user: { username: "test" } }, "product")).toBe(undefined);
+    expect(typeof index.getValue({ user: { username: "test" } }, "product")).toBe("undefined");
 });
 
 test("getValidationDefForFieldList adds required:true when required", () => {
@@ -248,7 +248,7 @@ test("interceptor returns func which does not throw error if apiValidations does
         originalUrl: "/user/login"
     }
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
-        expect(err).toBe(undefined);
+        expect(typeof err).toBe("undefined");
     });
 });
 
@@ -283,7 +283,7 @@ test("interceptor returns func which does not throw error if apiValidations does
         originalUrl: "/user/changepassword"
     }
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
-        expect(err).toBe(undefined);
+        expect(typeof err).toBe("undefined");
     });
 });
 
@@ -323,7 +323,7 @@ test("interceptor returns func which does not throw error if apiValidations does
         }
     }
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
-        expect(err).toBe(undefined);
+        expect(typeof err).toBe("undefined");
     });
 });
 
@@ -373,7 +373,7 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
         }
     }
     index.interceptor(apiValidations, true, validationSchema)(req, null, (err) => {
-        expect(req.body.some_extra_attr).toBe(undefined);
+        expect(typeof req.body.some_extra_attr).toBe("undefined");
     });
 });
 
@@ -421,7 +421,7 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
         }
     }
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
-        expect(err).not.toBe(undefined);
+        expect(typeof err).not.toBe("undefined");
     });
 });
 
@@ -454,7 +454,7 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
         }
     }
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
-        expect(err).toBe(undefined);
+        expect(typeof err).toBe("undefined");
     });
 });
 
@@ -487,7 +487,7 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
         }
     }
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
-        expect(err).not.toBe(undefined);
+        expect(typeof err).not.toBe("undefined");
     });
 });
 
@@ -516,7 +516,7 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
         originalUrl: "/cart"
     };
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
-        expect(err).not.toBe(undefined);
+        expect(typeof err).not.toBe("undefined");
     });
 });
 
