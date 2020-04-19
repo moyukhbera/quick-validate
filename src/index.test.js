@@ -1,15 +1,15 @@
 import * as index from "./index";
 
 test("getValue gets field value without \".\"", () => {
-    expect(index.getValue({ username: "test" }, "username")).toBe("test");
+    expect(index.getValue({ "username": "test" }, "username")).toBe("test");
 });
 
 test("getValue gets field value with \".\"", () => {
-    expect(index.getValue({ user: { username: "test" } }, "user.username")).toBe("test");
+    expect(index.getValue({ "user": { "username": "test" } }, "user.username")).toBe("test");
 });
 
 test("getValue returns undefined for non-existent field", () => {
-    expect(typeof index.getValue({ user: { username: "test" } }, "product")).toBe("undefined");
+    expect(typeof index.getValue({ "user": { "username": "test" } }, "product")).toBe("undefined");
 });
 
 test("getValidationDefForFieldList adds required:true when required", () => {
@@ -27,11 +27,11 @@ test("getValidationDefForFieldList adds required:true when required", () => {
             "type": "string",
             "minlength": 5,
             "maxlength": 15,
-            required: true
+            "required": true
         },
         "username": {
             "type": "email",
-            required: true
+            "required": true
         }
     });
 });
@@ -47,7 +47,7 @@ test("getValidationDefForFieldList throws Error if validation schema does not co
 });
 
 test("getSchemaForValidatedFields returns schema with correctly set required field", () => {
-    expect(index.getSchemaForValidatedFields({ required: ["username", "password"], optional: ["location"] }, {
+    expect(index.getSchemaForValidatedFields({ "required": ["username", "password"], "optional": ["location"] }, {
         "password": {
             "type": "string",
             "minlength": 5,
@@ -57,22 +57,22 @@ test("getSchemaForValidatedFields returns schema with correctly set required fie
             "type": "email"
         },
         "location": {
-            type: "String"
+            "type": "String"
         }
     })).toStrictEqual({
         "password": {
             "type": "string",
             "minlength": 5,
             "maxlength": 15,
-            required: true
+            "required": true
         },
         "username": {
             "type": "email",
-            required: true
+            "required": true
         },
-        location: {
-            type: "String",
-            required: false
+        "location": {
+            "type": "String",
+            "required": false
         }
     });
 });
@@ -88,53 +88,53 @@ test("getSchemaForValidatedFields returns empty object if it does not find any r
             "type": "email"
         },
         "location": {
-            type: "String"
+            "type": "String"
         }
     })).toStrictEqual({});
 });
 
 test("setParamRouteValidations replaces param variable with regex", () => {
     expect(index.setParamRouteValidations({
-        GET: {
+        "GET": {
             "/product/:product_id": {
 
             }
         }
     })).toStrictEqual({
-        GET: {
+        "GET": {
             "/product/[a-zA-Z0-9-]+": {
 
             }
         },
-        DELETE: {},
-        POST: {},
-        PUT: {}
+        "DELETE": {},
+        "POST": {},
+        "PUT": {}
     });
 });
 
 test("setParamRouteValidations returns empty objects for each HTTP method if there is no param variable", () => {
     index.resetParamAuthRoutes();
     expect(index.setParamRouteValidations({
-        GET: {
+        "GET": {
             "/products": {
             }
         }
     })).toStrictEqual({
-        GET: {},
-        DELETE: {},
-        POST: {},
-        PUT: {}
+        "GET": {},
+        "DELETE": {},
+        "POST": {},
+        "PUT": {}
     });
 });
 
 test("getValidationForParamRoute returns validations for route with path param", () => {
     index.resetParamAuthRoutes();
     index.setParamRouteValidations({
-        POST: {
+        "POST": {
             "/someurl/:some_id": {},
             "/product/:product_id": {
-                body: {
-                    required: [
+                "body": {
+                    "required": [
                         "name",
                         "image_url"
                     ]
@@ -143,8 +143,8 @@ test("getValidationForParamRoute returns validations for route with path param",
         }
     });
     expect(index.getValidationForParamRoute("POST", "/product/1234")).toStrictEqual({
-        body: {
-            required: [
+        "body": {
+            "required": [
                 "name",
                 "image_url"
             ]
@@ -155,11 +155,11 @@ test("getValidationForParamRoute returns validations for route with path param",
 test("getValidationForParamRoute returns null if path is not matched", () => {
     index.resetParamAuthRoutes();
     index.setParamRouteValidations({
-        POST: {
+        "POST": {
             "/someurl/:some_id": {},
             "/product/:product_id": {
-                body: {
-                    required: [
+                "body": {
+                    "required": [
                         "name",
                         "image_url"
                     ]
@@ -173,11 +173,11 @@ test("getValidationForParamRoute returns null if path is not matched", () => {
 test("getValidationForParamRoute returns null if http method is not in validation config", () => {
     index.resetParamAuthRoutes();
     index.setParamRouteValidations({
-        POST: {
+        "POST": {
             "/someurl/:some_id": {},
             "/product/:product_id": {
-                body: {
-                    required: [
+                "body": {
+                    "required": [
                         "name",
                         "image_url"
                     ]
@@ -192,10 +192,10 @@ test("getValidationForParamRoute returns null if http method is not in validatio
 
 test("interceptor returns func which does not throw error if apiValidations and validationSchema are fine", () => {
     let apiValidations = {
-        POST: {
+        "POST": {
             "/user/login": {
-                body: {
-                    required: [
+                "body": {
+                    "required": [
                         "username",
                         "password"
                     ]
@@ -204,21 +204,21 @@ test("interceptor returns func which does not throw error if apiValidations and 
         }
     };
     let validationSchema = {
-        username: {
-            type: "String",
-            minlength: 5,
-            maxlength: 10
+        "username": {
+            "type": "String",
+            "minlength": 5,
+            "maxlength": 10
         },
-        password: {
-            type: "String",
-            minlength: 8,
-            maxlength: 15
+        "password": {
+            "type": "String",
+            "minlength": 8,
+            "maxlength": 15
         }
     }
 
     let req = {
-        method: "POST",
-        originalUrl: "/user/login"
+        "method": "POST",
+        "originalUrl": "/user/login"
     }
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
         expect(err).not.toBe(null);
@@ -227,10 +227,10 @@ test("interceptor returns func which does not throw error if apiValidations and 
 
 test("interceptor returns func which does not throw error if apiValidations does not have requested HTTP method", () => {
     let apiValidations = {
-        GET: {
+        "GET": {
             "/myfeed": {
-                query: {
-                    optional: [
+                "query": {
+                    "optional": [
                         "since_millis"
                     ]
                 }
@@ -238,14 +238,14 @@ test("interceptor returns func which does not throw error if apiValidations does
         }
     };
     let validationSchema = {
-        since_millis: {
-            type: "Number"
+        "since_millis": {
+            "type": "Number"
         }
     }
 
     let req = {
-        method: "POST",
-        originalUrl: "/user/login"
+        "method": "POST",
+        "originalUrl": "/user/login"
     }
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
         expect(typeof err).toBe("undefined");
@@ -254,10 +254,10 @@ test("interceptor returns func which does not throw error if apiValidations does
 
 test("interceptor returns func which does not throw error if apiValidations does not have requested HTTP method", () => {
     let apiValidations = {
-        POST: {
+        "POST": {
             "/user/login": {
-                body: {
-                    required: [
+                "body": {
+                    "required": [
                         "username",
                         "password"
                     ]
@@ -266,21 +266,21 @@ test("interceptor returns func which does not throw error if apiValidations does
         }
     };
     let validationSchema = {
-        username: {
-            type: "String",
-            minlength: 5,
-            maxlength: 10
+        "username": {
+            "type": "String",
+            "minlength": 5,
+            "maxlength": 10
         },
-        password: {
-            type: "String",
-            minlength: 8,
-            maxlength: 15
+        "password": {
+            "type": "String",
+            "minlength": 8,
+            "maxlength": 15
         }
     }
 
     let req = {
-        method: "POST",
-        originalUrl: "/user/changepassword"
+        "method": "POST",
+        "originalUrl": "/user/changepassword"
     }
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
         expect(typeof err).toBe("undefined");
@@ -290,10 +290,10 @@ test("interceptor returns func which does not throw error if apiValidations does
 test("interceptor returns func which does not throw error if apiValidations does not have requested HTTP method 3", () => {
     index.resetParamAuthRoutes();
     let apiValidations = {
-        POST: {
+        "POST": {
             "/product/:product_id": {
-                body: {
-                    required: [
+                "body": {
+                    "required": [
                         "product_name",
                         "desc"
                     ]
@@ -302,24 +302,24 @@ test("interceptor returns func which does not throw error if apiValidations does
         }
     };
     let validationSchema = {
-        product_name: {
-            type: "String",
-            minlength: 5,
-            maxlength: 120
+        "product_name": {
+            "type": "String",
+            "minlength": 5,
+            "maxlength": 120
         },
-        desc: {
-            type: "String",
-            minlength: 8,
-            maxlength: 300
+        "desc": {
+            "type": "String",
+            "minlength": 8,
+            "maxlength": 300
         }
     }
 
     let req = {
-        method: "POST",
-        originalUrl: "/product/1234",
-        body: {
-            product_name: "Some fictious product",
-            desc: "Some desc about product"
+        "method": "POST",
+        "originalUrl": "/product/1234",
+        "body": {
+            "product_name": "Some fictious product",
+            "desc": "Some desc about product"
         }
     }
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
@@ -330,14 +330,14 @@ test("interceptor returns func which does not throw error if apiValidations does
 test("interceptor returns func to remove extraAttrs when removeExtraAttrs arguments is true", () => {
     index.resetParamAuthRoutes();
     let apiValidations = {
-        POST: {
+        "POST": {
             "/product/:product_id": {
-                body: {
-                    required: [
+                "body": {
+                    "required": [
                         "product_name",
                         "price"
                     ],
-                    optional: [
+                    "optional": [
                         "desc"
                     ]
                 }
@@ -346,29 +346,29 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
     };
     index.setParamRouteValidations(apiValidations);
     let validationSchema = {
-        product_name: {
-            type: "String",
-            minlength: 5,
-            maxlength: 120
+        "product_name": {
+            "type": "String",
+            "minlength": 5,
+            "maxlength": 120
         },
-        desc: {
-            type: "String",
-            minlength: 8,
-            maxlength: 300
+        "desc": {
+            "type": "String",
+            "minlength": 8,
+            "maxlength": 300
         },
-        price: {
-            type: "Number"
+        "price": {
+            "type": "Number"
         }
     }
 
     let req = {
-        method: "POST",
-        originalUrl: "/product/1234",
-        body: {
-            product_name: "Some fictious product",
-            desc: "",
-            price: 999.99,
-            some_extra_attr: "this should be removed"
+        "method": "POST",
+        "originalUrl": "/product/1234",
+        "body": {
+            "product_name": "Some fictious product",
+            "desc": "",
+            "price": 999.99,
+            "some_extra_attr": "this should be removed"
 
         }
     }
@@ -380,14 +380,14 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
 test("interceptor returns func to remove extraAttrs when removeExtraAttrs arguments is true", () => {
     index.resetParamAuthRoutes();
     let apiValidations = {
-        POST: {
+        "POST": {
             "/product/:product_id": {
-                body: {
-                    required: [
+                "body": {
+                    "required": [
                         "product_name",
                         "price"
                     ],
-                    optional: [
+                    "optional": [
                         "desc"
                     ]
                 }
@@ -396,27 +396,27 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
     };
     index.setParamRouteValidations(apiValidations);
     let validationSchema = {
-        product_name: {
-            type: "String",
-            minlength: 5,
-            maxlength: 120
+        "product_name": {
+            "type": "String",
+            "minlength": 5,
+            "maxlength": 120
         },
-        desc: {
-            type: "String",
-            minlength: 8,
-            maxlength: 300
+        "desc": {
+            "type": "String",
+            "minlength": 8,
+            "maxlength": 300
         },
-        price: {
-            type: "Number"
+        "price": {
+            "type": "Number"
         }
     }
 
     let req = {
-        method: "POST",
-        originalUrl: "/product/1234",
-        body: {
-            price: 999.99,
-            some_extra_attr: "this should be removed"
+        "method": "POST",
+        "originalUrl": "/product/1234",
+        "body": {
+            "price": 999.99,
+            "some_extra_attr": "this should be removed"
 
         }
     }
@@ -428,10 +428,10 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
 test("interceptor returns func to remove extraAttrs when removeExtraAttrs arguments is true", () => {
     index.resetParamAuthRoutes();
     let apiValidations = {
-        GET: {
+        "GET": {
             "/products": {
-                query: {
-                    required: [
+                "query": {
+                    "required": [
                         "page"
                     ]
                 }
@@ -440,16 +440,16 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
     };
     index.setParamRouteValidations(apiValidations);
     let validationSchema = {
-        page: {
-            type: "Number"
+        "page": {
+            "type": "Number"
         }
     }
 
     let req = {
-        method: "POST",
-        originalUrl: "/product/1234",
-        query: {
-            page: "1"
+        "method": "POST",
+        "originalUrl": "/product/1234",
+        "query": {
+            "page": "1"
 
         }
     }
@@ -461,10 +461,10 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
 test("interceptor returns func to remove extraAttrs when removeExtraAttrs arguments is true", () => {
     index.resetParamAuthRoutes();
     let apiValidations = {
-        GET: {
+        "GET": {
             "/products": {
-                query: {
-                    required: [
+                "query": {
+                    "required": [
                         "page"
                     ]
                 }
@@ -473,16 +473,16 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
     };
     index.setParamRouteValidations(apiValidations);
     let validationSchema = {
-        page: {
-            type: "Number"
+        "page": {
+            "type": "Number"
         }
     }
 
     let req = {
-        method: "GET",
-        originalUrl: "/products",
-        query: {
-            size: "10"
+        "method": "GET",
+        "originalUrl": "/products",
+        "query": {
+            "size": "10"
 
         }
     }
@@ -494,10 +494,10 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
 test("interceptor returns func to remove extraAttrs when removeExtraAttrs arguments is true", () => {
     index.resetParamAuthRoutes();
     let apiValidations = {
-        GET: {
+        "GET": {
             "/cart": {
-                headers: {
-                    required: [
+                "headers": {
+                    "required": [
                         "sessiontoken"
                     ]
                 }
@@ -506,14 +506,14 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
     };
     index.setParamRouteValidations(apiValidations);
     let validationSchema = {
-        sessiontoken: {
-            type: "String"
+        "sessiontoken": {
+            "type": "String"
         }
     };
 
     let req = {
-        method: "GET",
-        originalUrl: "/cart"
+        "method": "GET",
+        "originalUrl": "/cart"
     };
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
         expect(typeof err).not.toBe("undefined");
@@ -521,5 +521,5 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
 });
 
 test("interceptor returns func to remove extraAttrs when removeExtraAttrs arguments is true", () => {
-    index.enableValidations({ use: () => { } }, {}, {}, false);
+    index.enableValidations({ "use": () => { } }, {}, {}, false);
 });
