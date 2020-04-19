@@ -13,7 +13,7 @@ const log = (level, message) => {
 
 export const setLogLevel = (logLevel) => {
     debugLevel = logLevel;
-}
+};
 
 export const debug = (msg) => {
     log("debug", msg);

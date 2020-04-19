@@ -37,8 +37,9 @@ export const validLength = (val, length) => {
 }
 
 export const validEnum = (val, enumVals) => {
-    if (!val)
+    if (!val) {
         throw new Error("enum needs values to validate");
+    }
     if (enumVals.indexOf(val) === -1) {
         return false;
     }
@@ -80,6 +81,18 @@ function throwErrorWithCode(errMsg, code = 1001) {
 
 const PASSWORD_CRITERIA_STR = "must be 8-15 characters, should contain atleast 1 special character, 1 digit, 1 lower case and 1 upper case character";
 
+const validateNumericField = (val, reqPartName, fieldName, errCode, obj) => {
+    if (typeof val === "string" || val instanceof String) {
+        if (reqPartName !== "query") {
+            throwErrorWithCode(fieldName + " should be a Number", errCode);
+        }
+    }
+    if (!isNumber(val)) {
+        throwErrorWithCode(fieldName + " should be a Number", errCode);
+    }
+    obj[fieldName] = parseFloat(val);
+};
+
 /**
  * 
  * @param {*} obj 
@@ -120,8 +133,9 @@ export const validate = (obj, validationConfig, reqPartName) => {
             throwErrorWithCode(fieldName + " is required", (fieldValidations.missing_err_code || 1111));
         }
 
-        if (obj[fieldName] !== false && obj[fieldName] !== "" && !obj[fieldName])
+        if (obj[fieldName] !== false && obj[fieldName] !== "" && !obj[fieldName]) {
             return;
+        }
 
         for (let key in fieldValidations) {
             if (key === "type") {
@@ -156,16 +170,4 @@ export const validate = (obj, validationConfig, reqPartName) => {
             }
         }
     }
-}
-
-const validateNumericField = (val, reqPartName, fieldName, errCode, obj) => {
-    if (typeof val === "string" || val instanceof String) {
-        if (reqPartName !== "query") {
-            throwErrorWithCode(fieldName + " should be a Number", errCode);
-        }
-    }
-    if (!isNumber(val)) {
-        throwErrorWithCode(fieldName + " should be a Number", errCode);
-    }
-    obj[fieldName] = parseFloat(val);
 };

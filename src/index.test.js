@@ -509,7 +509,7 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
         sessiontoken: {
             type: "String"
         }
-    }
+    };
 
     let req = {
         method: "GET",

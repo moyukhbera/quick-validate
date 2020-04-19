@@ -152,4 +152,4 @@ export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) 
         }
         next();
     };
-}
+};
