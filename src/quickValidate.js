@@ -70,7 +70,7 @@ export const validEmail = (email) => {
 export const isStrongPassword = (password) => {
     let strongPsswdRegex = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,15}$/;
     return strongPsswdRegex.test(password);
-}
+};
 
 function throwErrorWithCode(errMsg, code = 1001) {
     let err = new Error(errMsg);
