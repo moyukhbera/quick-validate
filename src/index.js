@@ -81,16 +81,6 @@ export const getValidationForParamRoute = (httpMethod, originalUrl) => {
     return null;
 }
 
-export const enableValidations = (app, apiValidations, validationSchema, removeExtraAttrs) => {
-    setParamRouteValidations(apiValidations);
-    app.use(interceptor(apiValidations, removeExtraAttrs, validationSchema));
-}
-
-export const validateReqPart = (partName, req, routeValidations, validationSchema, next) => {
-    let fieldValidationCfg = getSchemaForValidatedFields(routeValidations[partName], validationSchema);
-    quickValidate.validate(req[partName], fieldValidationCfg, partName);
-}
-
 export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) => {
     return function (req, res, next) {
         let httpMethod = req.method;
@@ -98,8 +88,9 @@ export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) 
 
         if (apiValidations) {
             let httpMethodValidations = apiValidations[httpMethod];
-            if (!httpMethodValidations)
+            if (!httpMethodValidations) {
                 return next();
+            }
             let routeValidations = {};
             let paramRouteValidations = getValidationForParamRoute(httpMethod, url);
             if (paramRouteValidations) {
@@ -152,4 +143,14 @@ export const interceptor = (apiValidations, removeExtraAttrs, validationSchema) 
         }
         next();
     };
+};
+
+export const enableValidations = (app, apiValidations, validationSchema, removeExtraAttrs) => {
+    setParamRouteValidations(apiValidations);
+    app.use(interceptor(apiValidations, removeExtraAttrs, validationSchema));
+};
+
+export const validateReqPart = (partName, req, routeValidations, validationSchema, next) => {
+    let fieldValidationCfg = getSchemaForValidatedFields(routeValidations[partName], validationSchema);
+    quickValidate.validate(req[partName], fieldValidationCfg, partName);
 };

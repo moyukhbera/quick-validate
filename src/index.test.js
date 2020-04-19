@@ -485,7 +485,7 @@ test("interceptor returns func to remove extraAttrs when removeExtraAttrs argume
             "size": "10"
 
         }
-    }
+    };
     index.interceptor(apiValidations, false, validationSchema)(req, null, (err) => {
         expect(typeof err).not.toBe("undefined");
     });
