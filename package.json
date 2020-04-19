@@ -1,7 +1,7 @@
 {
   "name": "quick-validate",
-  "version": "1.0.1",
-  "description": "Express middleware for quick configurable API validations",
+  "version": "1.0.2",
+  "description": "Express middleware for codeless configuration-driven API validations",
   "main": "lib/index.js",
   "devDependencies": {
     "@babel/cli": "^7.8.4",
