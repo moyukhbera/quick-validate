@@ -1,6 +1,6 @@
 {
   "name": "quick-validate",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Express middleware for codeless configuration-driven API validations",
   "main": "lib/index.js",
   "devDependencies": {
@@ -37,6 +37,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/moyukhbera/quick-validate.git"
+  },
+  "peerDependencies": {
+    "express": "^4.0.0"
   },
   "author": "Moyukh Bera",
   "license": "MIT"

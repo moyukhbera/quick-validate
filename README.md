@@ -1,4 +1,4 @@
-# quick-validate
+![quick-validate](https://myk-misc.s3.ap-south-1.amazonaws.com/quick-validate.png)
 
 ###### Quick configurable API validations for Express.js
 
@@ -124,6 +124,8 @@ import validationSchema from "./validations/validationSchema.json";
 import express from "express";
 
 const app = express();
+app.use(express.json());
+
 quickValidate.enableValidations(app, apiValidations, validationSchema, true);
 ```
 
@@ -136,6 +138,8 @@ var validationSchema = require("./validations/validationSchema.json");
 var express = require("express");
 
 var app = express();
+app.use(express.json());
+
 quickValidate.enableValidations(app, apiValidations, validationSchema, true);
 ```
 
