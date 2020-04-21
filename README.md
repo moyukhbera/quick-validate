@@ -143,6 +143,8 @@ app.use(express.json());
 quickValidate.enableValidations(app, apiValidations, validationSchema, true);
 ```
 
+The last argument is a boolean which tells _quick-validate_ if extra attributes which are not specified in the validation config for an endpoint, should be removed. This should be usually set to _true_.
+
 - Intercept validation errors with middleware
 
 ```js
