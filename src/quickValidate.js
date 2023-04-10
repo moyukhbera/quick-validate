@@ -134,7 +134,7 @@ export const validate = (obj, validationConfig, reqPartName) => {
         }
 
         if (obj[fieldName] !== false && obj[fieldName] !== "" && !obj[fieldName]) {
-            return;
+            continue;
         }
 
         for (let key in fieldValidations) {

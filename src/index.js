@@ -60,7 +60,7 @@ export const setParamRouteValidations = (routesJSON) => {
     for (const httpMethod in routesJSON) {
         for (const url in routesJSON[httpMethod]) {
             if (url.indexOf(":") > -1) {
-                paramAuthRoutes[httpMethod][url.replace(/:[a-zA-Z0-9-_]+/g, "[a-zA-Z0-9-]+")] = routesJSON[httpMethod][url];
+                paramAuthRoutes[httpMethod][url.replace(/:[a-zA-Z0-9-_]+/g, "[a-zA-Z0-9-_]+")] = routesJSON[httpMethod][url];
             }
         }
     }

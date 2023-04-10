@@ -102,7 +102,7 @@ test("setParamRouteValidations replaces param variable with regex", () => {
         }
     })).toStrictEqual({
         "GET": {
-            "/product/[a-zA-Z0-9-]+": {
+            "/product/[a-zA-Z0-9-_]+": {
 
             }
         },
